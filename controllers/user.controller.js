@@ -4,6 +4,8 @@ const { findAll, findById, update } = require("../services/user.service");
 
 const { requestValidation } = require("../utils/RequestValidation");
 const { verifyToken } = require("../utils/processToken");
+const fs = require("fs");
+const moment = require("moment");
 module.exports = {
   index: async (req, res) => {
     try {
@@ -58,11 +60,16 @@ module.exports = {
     try {
       const { authorization } = req.headers;
       req.user = verifyToken(authorization);
-      const schema = {
-        name: "string|empty:false",
-        email: "email|empty:false|email",
-      };
-      requestValidation(res, req.body, schema);
+      if (req.file) {
+        req.body.image = "/uploads/profile/" + req.file.filename;
+      }
+      req.body.dateOfBirth = moment(req.body.dateOfBirth);
+      const userFound = await findById(req.user.id);
+      if (req.file && userFound.image) {
+        if (fs.existsSync(`public/${userFound.image}`)) {
+          fs.unlinkSync(`public${userFound.image}`);
+        }
+      }
       const user = await update(req.user.id, req.body);
       successResponse(res, 200, user, "Successfully updated user");
     } catch (error) {

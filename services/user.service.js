@@ -11,6 +11,9 @@ module.exports = {
   findByEmail: async (email) => {
     return await prisma.user.findUnique({ where: { email } });
   },
+  findByUsername: async (username) => {
+    return await prisma.user.findUnique({ where: { username } });
+  },
   store: async (data) => {
     return await prisma.user.create({ data });
   },

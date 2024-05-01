@@ -4,16 +4,20 @@ const {
   findById,
   store,
   findByEmail,
+  findByUsername,
 } = require("../services/user.service");
 
 const { requestValidation } = require("../utils/RequestValidation");
 const { generateToken, verifyToken } = require("../utils/processToken");
+const moment = require("moment");
 module.exports = {
   register: async (req, res) => {
     try {
       const schema = {
         name: "string|empty:false",
         email: "email|empty:false|email",
+        username: "string|empty:false",
+        dateOfBirth: "string|empty:false",
         password: "string|min:6",
         password_confirmation: "string|min:6",
       };
@@ -21,12 +25,17 @@ module.exports = {
       if (req.body.password !== req.body.password_confirmation) {
         return errorResponse(res, 400, "Password does not match");
       }
-      const userFound = await findByEmail(req.body.email);
-      if (userFound) {
+      const emailFound = await findByEmail(req.body.email);
+      if (emailFound) {
         return errorResponse(res, 409, "Email already in use");
+      }
+      const usernameFound = await findByUsername(req.body.username);
+      if (usernameFound) {
+        return errorResponse(res, 409, "Username already in use");
       }
       req.body.password = bcrypt.hashSync(req.body.password, 10);
       delete req.body.password_confirmation;
+      req.body.dateOfBirth = moment(req.body.dateOfBirth);
       const user = await store(req.body);
       successResponse(res, 201, user, "Successfully created user");
     } catch (error) {
@@ -72,5 +81,5 @@ module.exports = {
     } catch (error) {
       errorResponse(res, 400, error.message);
     }
-  }
+  },
 };
