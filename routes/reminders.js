@@ -2,7 +2,6 @@ var express = require("express");
 var router = express.Router();
 const ReminderController = require("../controllers/reminder.controller");
 
-/* GET users listing. */
 router.get("/", ReminderController.index);
 router
   .route("/:id")

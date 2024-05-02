@@ -3,7 +3,6 @@ var router = express.Router();
 const { authMiddleware } = require("../middleware/auth");
 const PostController = require("../controllers/post.controller");
 
-/* GET users listing. */
 router.get("/", authMiddleware, PostController.index);
 router.get("/get-by-user", authMiddleware, PostController.getByUser);
 router

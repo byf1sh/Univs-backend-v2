@@ -9,6 +9,7 @@ var usersRouter = require("./routes/users");
 var authRouter = require("./routes/auth");
 var remindersRouter = require("./routes/reminders");
 var postsRouter = require("./routes/posts");
+var commentsRouter = require("./routes/comments");
 
 var { authMiddleware } = require("./middleware/auth");
 
@@ -25,5 +26,6 @@ app.use(addApiPrefix("/users"), authMiddleware, usersRouter);
 app.use(addApiPrefix("/auth"), authRouter);
 app.use(addApiPrefix("/reminders"), authMiddleware, remindersRouter);
 app.use(addApiPrefix("/posts"), authMiddleware, postsRouter);
+app.use(addApiPrefix("/comments"), authMiddleware, commentsRouter);
 
 module.exports = app;

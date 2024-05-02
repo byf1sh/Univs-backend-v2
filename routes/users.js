@@ -25,7 +25,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-/* GET users listing. */
 router.get("/", UserController.index);
 router.route("/:id").get(UserController.show);
 router.post("/forgot-password", UserController.forgotPassword);

@@ -25,6 +25,8 @@ module.exports = {
                 university: true,
               },
             },
+            createdAt: true,
+            updatedAt: true,
           },
         },
       },
@@ -55,6 +57,8 @@ module.exports = {
                 university: true,
               },
             },
+            createdAt: true,
+            updatedAt: true,
           },
         },
       },
@@ -85,6 +89,8 @@ module.exports = {
                 university: true,
               },
             },
+            createdAt: true,
+            updatedAt: true,
           },
         },
       },
@@ -95,6 +101,7 @@ module.exports = {
   },
   destroy: async (id) => {
     id = parseInt(id);
+    await prisma.comment.deleteMany({ where: { postId: id } });
     return await prisma.post.delete({ where: { id } });
   },
 };
