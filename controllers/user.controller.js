@@ -63,7 +63,7 @@ module.exports = {
       if (req.file) {
         req.body.image = "/uploads/profile/" + req.file.filename;
       }
-      req.body.dateOfBirth = moment(req.body.dateOfBirth);
+      req.body.dateOfBirth = moment.utc(req.body.dateOfBirth);
       const userFound = await findById(req.user.id);
       if (req.file && userFound.image) {
         if (fs.existsSync(`public/${userFound.image}`)) {

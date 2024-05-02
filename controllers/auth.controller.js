@@ -35,7 +35,7 @@ module.exports = {
       }
       req.body.password = bcrypt.hashSync(req.body.password, 10);
       delete req.body.password_confirmation;
-      req.body.dateOfBirth = moment(req.body.dateOfBirth);
+      req.body.dateOfBirth = moment.utc(req.body.dateOfBirth);
       const user = await store(req.body);
       successResponse(res, 201, user, "Successfully created user");
     } catch (error) {

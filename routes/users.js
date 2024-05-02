@@ -20,7 +20,7 @@ const storage = multer.diskStorage({
     });
   },
   filename: function (req, file, cb) {
-    cb(null, moment().format("YYYYMMDDHHmmss") + "-" + file.originalname);
+    cb(null, moment.utc().format("YYYYMMDDHHmmss") + "-" + file.originalname);
   },
 });
 
