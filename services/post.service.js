@@ -104,4 +104,36 @@ module.exports = {
     await prisma.comment.deleteMany({ where: { postId: id } });
     return await prisma.post.delete({ where: { id } });
   },
+  filterByDesc: async (req) => {
+    return await prisma.post.findMany({
+      where: { description: { contains: req } },
+      orderBy: { id: "desc" },
+      include: {
+        user: {
+          select: {
+            name: true,
+            username: true,
+            image: true,
+            university: true,
+          },
+        },
+        comments: {
+          select: {
+            id: true,
+            description: true,
+            user: {
+              select: {
+                name: true,
+                username: true,
+                image: true,
+                university: true,
+              },
+            },
+            createdAt: true,
+            updatedAt: true,
+          },
+        },
+      },
+    });
+  },
 };
