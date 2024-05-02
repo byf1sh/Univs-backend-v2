@@ -65,7 +65,7 @@ model ReportedPost {
   id          Int      @id @default(autoincrement())
   userId      Int
   postId      Int
-  description String
+  description String?
   user        User     @relation(fields: [userId], references: [id])
   post        Post     @relation(fields: [postId], references: [id])
   createdAt   DateTime @default(now())
@@ -76,7 +76,7 @@ model ReportedComment {
   id          Int      @id @default(autoincrement())
   userId      Int
   commentId   Int
-  description String
+  description String?
   user        User     @relation(fields: [userId], references: [id])
   comment     Comment  @relation(fields: [commentId], references: [id])
   createdAt   DateTime @default(now())

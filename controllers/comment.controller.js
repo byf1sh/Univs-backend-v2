@@ -2,7 +2,6 @@ const { successResponse, errorResponse } = require("../utils/Response");
 const { store, destroy } = require("../services/comment.service");
 const { findById } = require("../services/post.service");
 const { verifyToken } = require("../utils/processToken");
-const moment = require("moment");
 module.exports = {
   store: async (req, res) => {
     try {
