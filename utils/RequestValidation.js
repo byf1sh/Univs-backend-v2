@@ -4,6 +4,8 @@ const v = new Validator();
 module.exports = {
   requestValidation: (res, request, schema) => {
     const validate = v.validate(request, schema);
-    return validate;
+    if (validate.length) {
+      return errorResponse(res, 400, validate);
+    }
   },
 };

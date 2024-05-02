@@ -1,7 +1,6 @@
 var express = require("express");
 var router = express.Router();
 const UserController = require("../controllers/user.controller");
-const { authMiddleware } = require("../middleware/auth");
 
 const moment = require("moment");
 const multer = require("multer");
@@ -27,14 +26,9 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 /* GET users listing. */
-router.get("/", authMiddleware, UserController.index);
+router.get("/", UserController.index);
 router.route("/:id").get(UserController.show);
-router.post("/forgot-password", authMiddleware, UserController.forgotPassword);
-router.post(
-  "/update",
-  authMiddleware,
-  upload.single("image"),
-  UserController.update
-);
+router.post("/forgot-password", UserController.forgotPassword);
+router.post("/update", upload.single("image"), UserController.update);
 
 module.exports = router;

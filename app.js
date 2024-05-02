@@ -8,6 +8,9 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var authRouter = require("./routes/auth");
 var remindersRouter = require("./routes/reminders");
+var postsRouter = require("./routes/posts");
+
+var { authMiddleware } = require("./middleware/auth");
 
 var app = express();
 
@@ -18,8 +21,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
-app.use(addApiPrefix("/users"), usersRouter);
+app.use(addApiPrefix("/users"), authMiddleware, usersRouter);
 app.use(addApiPrefix("/auth"), authRouter);
-app.use(addApiPrefix("/reminders"), remindersRouter);
+app.use(addApiPrefix("/reminders"), authMiddleware, remindersRouter);
+app.use(addApiPrefix("/posts"), authMiddleware, postsRouter);
 
 module.exports = app;
