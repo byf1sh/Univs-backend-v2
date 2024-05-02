@@ -7,6 +7,7 @@ const { addApiPrefix } = require("./utils/AddPrefix");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var authRouter = require("./routes/auth");
+var remindersRouter = require("./routes/reminders");
 
 var app = express();
 
@@ -19,5 +20,6 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use(addApiPrefix("/users"), usersRouter);
 app.use(addApiPrefix("/auth"), authRouter);
+app.use(addApiPrefix("/reminders"), remindersRouter);
 
 module.exports = app;
