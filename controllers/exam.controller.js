@@ -5,7 +5,14 @@ const {
   filterByTitle,
   store,
 } = require("../services/exam.service");
-const { store: storeExamDetails } = require("../services/examDetails.service");
+const {
+  store: storeResult,
+  findById: findResult,
+} = require("../services/result.service");
+const {
+  store: storeExamDetails,
+  findById: findExamDetails,
+} = require("../services/examDetails.service");
 const { verifyToken } = require("../utils/processToken");
 module.exports = {
   index: async (req, res) => {
@@ -51,13 +58,57 @@ module.exports = {
         category,
         userId: req.user.id,
       });
-      examDetails.forEach(async (examDetail) => {
-        await storeExamDetails({
-          ...examDetail,
+      let examDetailsData = [];
+      examDetails.forEach((detail) => {
+        examDetailsData.push({
+          ...detail,
           examId: exam.id,
         });
       });
+      await storeExamDetails(examDetailsData);
       return successResponse(res, 200, exam, "Successfully created exam");
+    } catch (error) {
+      return errorResponse(res, 400, error.message);
+    }
+  },
+  submit: async (req, res) => {
+    try {
+      const { authorization } = req.headers;
+      req.user = verifyToken(authorization);
+      req.body.userId = req.user.id;
+      const { examResponses } = req.body;
+
+      let score = 0;
+      let correct = 0;
+      let wrong = 0;
+
+      await Promise.all(
+        examResponses.map(async (response) => {
+          const examDetails = await findExamDetails(response.examDetailsId);
+          if (examDetails) {
+            if (response.answer === examDetails.key) {
+              correct = correct + 1;
+            } else {
+              wrong = wrong + 1;
+            }
+          }
+        })
+      );
+      score = (correct / examResponses.length) * 100;
+      const result = await storeResult({
+        userId: req.user.id,
+        score,
+        correct,
+        wrong,
+        examId: req.body.examId,
+      });
+      const finalResult = await findResult(result.id);
+      return successResponse(
+        res,
+        200,
+        finalResult,
+        "Successfully submitted exam"
+      );
     } catch (error) {
       return errorResponse(res, 400, error.message);
     }
