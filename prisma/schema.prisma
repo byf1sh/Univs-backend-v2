@@ -22,19 +22,21 @@ model User {
   comments         Comment[]
   reportedPosts    ReportedPost[]
   reportedComments ReportedComment[]
+  exams            Exam[]
+  results          Result[]
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
 }
 
 model Reminder {
-  id          Int      @id @default(autoincrement())
-  userId      Int
-  title       String
-  date        DateTime @db.Date
-  time        DateTime @db.Time
-  user        User     @relation(fields: [userId], references: [id])
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  title     String
+  date      DateTime @db.Date
+  time      DateTime @db.Time
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Post {
@@ -81,4 +83,45 @@ model ReportedComment {
   comment     Comment  @relation(fields: [commentId], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model Exam {
+  id          Int           @id @default(autoincrement())
+  userId      Int
+  title       String
+  imageUrl    String
+  category    String
+  user        User          @relation(fields: [userId], references: [id])
+  examDetails ExamDetails[]
+  results     Result[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model ExamDetails {
+  id        Int      @id @default(autoincrement())
+  examId    Int
+  question  String
+  option1   String
+  option2   String
+  option3   String
+  option4   String
+  option5   String
+  key       String
+  exam      Exam     @relation(fields: [examId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Result {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  examId    Int
+  score     Int
+  correct   Int
+  wrong     Int
+  user      User     @relation(fields: [userId], references: [id])
+  exam      Exam     @relation(fields: [examId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
