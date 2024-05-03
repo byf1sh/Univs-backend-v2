@@ -7,10 +7,7 @@ const {
   destroy,
   filterByDesc,
 } = require("../services/post.service");
-
-const { requestValidation } = require("../utils/RequestValidation");
 const { verifyToken } = require("../utils/processToken");
-const moment = require("moment");
 module.exports = {
   index: async (req, res) => {
     try {

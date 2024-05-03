@@ -37,9 +37,9 @@ module.exports = {
       delete req.body.password_confirmation;
       req.body.dateOfBirth = moment.utc(req.body.dateOfBirth);
       const user = await store(req.body);
-      successResponse(res, 201, user, "Successfully created user");
+      return successResponse(res, 201, user, "Successfully created user");
     } catch (error) {
-      errorResponse(res, 400, error.message);
+      return errorResponse(res, 400, error.message);
     }
   },
   login: async (req, res) => {
@@ -60,15 +60,20 @@ module.exports = {
           };
           const token = generateToken(data);
           const payload = verifyToken(token);
-          successResponse(res, 200, { payload, token }, "Login successful");
+          return successResponse(
+            res,
+            200,
+            { payload, token },
+            "Login successful"
+          );
         } else {
-          errorResponse(res, 400, "Invalid credentials");
+          return errorResponse(res, 400, "Invalid credentials");
         }
       } else {
-        errorResponse(res, 400, "Invalid credentials");
+        return errorResponse(res, 400, "Invalid credentials");
       }
     } catch (error) {
-      errorResponse(res, 400, error.message);
+      return errorResponse(res, 400, error.message);
     }
   },
   getAuth: async (req, res) => {
@@ -77,9 +82,9 @@ module.exports = {
       req.user = verifyToken(authorization);
       const user = await findById(req.user.id);
       delete user.password;
-      successResponse(res, 200, user, "Successfully retrieved user");
+      return successResponse(res, 200, user, "Successfully retrieved user");
     } catch (error) {
-      errorResponse(res, 400, error.message);
+      return errorResponse(res, 400, error.message);
     }
   },
 };
