@@ -3,6 +3,7 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const { addApiPrefix } = require("./utils/AddPrefix");
+const port = 3000;
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
@@ -38,4 +39,6 @@ app.use(
 );
 app.use(addApiPrefix("/report-post"), authMiddleware, reportedPostsRouter);
 
-module.exports = app;
+app.listen(port, () => {
+  console.log(`Listening on port ${port}`);
+});
