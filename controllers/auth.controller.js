@@ -73,7 +73,7 @@ module.exports = {
         return errorResponse(res, 400, "Invalid credentials");
       }
     } catch (error) {
-      return errorResponse(res, 400, "Masuk kesini");
+      return errorResponse(res, 400, error.message);
     }
   },
   getAuth: async (req, res) => {
