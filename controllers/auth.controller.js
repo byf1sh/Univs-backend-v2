@@ -63,7 +63,7 @@ module.exports = {
           return successResponse(
             res,
             200,
-            { "payload", "token" },
+            { payload, token },
             "Login successful"
           );
         } else {
