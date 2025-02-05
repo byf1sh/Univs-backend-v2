@@ -51,6 +51,7 @@ module.exports = {
       };
       requestValidation(res, req.body, schema);
       const userFound = await findByEmail(email);
+      console.log("Diluar if nih");
       if (userFound) {
         if (bcrypt.compareSync(password, userFound.password)) {
           const data = {
