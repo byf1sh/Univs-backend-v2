@@ -49,7 +49,7 @@ module.exports = {
         email: "email|empty:false|email",
         password: "string|min:6",
       };
-      requestValidation(res, req.body, schema);
+      // requestValidation(res, req.body, schema);
       const userFound = await findByEmail(email);
       if (userFound) {
         if (bcrypt.compareSync(password, userFound.password)) {
