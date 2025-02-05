@@ -126,3 +126,4 @@ model Result {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
