@@ -21,7 +21,7 @@ module.exports = {
         password: "string|min:6",
         password_confirmation: "string|min:6",
       };
-      requestValidation(res, req.body, schema);
+      // requestValidation(res, req.body, schema);
       if (req.body.password !== req.body.password_confirmation) {
         return errorResponse(res, 400, "Password does not match");
       }
