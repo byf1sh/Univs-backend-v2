@@ -59,7 +59,9 @@ module.exports = {
             email: userFound.email,
           };
           const token = generateToken(data);
+          console.log("Generated Token",token);
           const payload = verifyToken(token);
+          console.log("Generated payload",payload);
           return successResponse(
             res,
             200,
