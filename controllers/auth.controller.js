@@ -58,8 +58,8 @@ module.exports = {
             name: userFound.name,
             email: userFound.email,
           };
-          const token = generateToken(data);
-          const payload = verifyToken(token);
+          // const token = generateToken(data);
+          // const payload = verifyToken(token);
           return successResponse(
             res,
             200,
