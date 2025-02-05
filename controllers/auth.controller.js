@@ -59,6 +59,7 @@ module.exports = {
             name: userFound.name,
             email: userFound.email,
           };
+          console.log("Sebelum generated token\nini data user",userFound);
           const token = generateToken(data);
           console.log("Generated Token",token);
           const payload = verifyToken(token);
