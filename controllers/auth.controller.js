@@ -21,7 +21,7 @@ module.exports = {
         password: "string|min:6",
         password_confirmation: "string|min:6",
       };
-      // requestValidation(res, req.body, schema);
+      requestValidation(res, req.body, schema);
       if (req.body.password !== req.body.password_confirmation) {
         return errorResponse(res, 400, "Password does not match");
       }
@@ -49,7 +49,7 @@ module.exports = {
         email: "email|empty:false|email",
         password: "string|min:6",
       };
-      // requestValidation(res, req.body, schema);
+      requestValidation(res, req.body, schema);
       const userFound = await findByEmail(email);
       if (userFound) {
         if (bcrypt.compareSync(password, userFound.password)) {
